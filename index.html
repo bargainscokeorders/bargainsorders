@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Your Order | Bargainsshoppe.Express</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    :root {
+      --mpesa-blue: #0055A4;
+      --whatsapp-green: #25D366;
+      --kenyan-red: #C8102E;
+      --kenyan-green: #007A3D;
+      --light-gray: #f8f9fa;
+      --dark-gray: #343a40;
+    }
+
+    body {
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 0;
+      background: white;
+      border-radius: 16px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--mpesa-blue);
+      margin-bottom: 8px;
+    }
+
+    .logo span {
+      color: var(--kenyan-red);
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .search-box {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .search-box h2 {
+      margin-bottom: 15px;
+      color: var(--dark-gray);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-group input {
+      flex: 1;
+      padding: 14px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--whatsapp-green);
+    }
+
+    .input-group button {
+      background: var(--whatsapp-green);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0 24px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .input-group button:hover {
+      background: #1faa55;
+    }
+
+    .status-card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: none;
+    }
+
+    .status-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #eee;
+    }
+
+    .status-icon {
+      width: 50px;
+      height: 50px;
+      background: #e6f7ee;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      color: var(--whatsapp-green);
+      font-size: 20px;
+    }
+
+    .status-info h3 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .status-info p {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+      margin-top: 20px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 10px;
+      height: calc(100% - 10px);
+      width: 2px;
+      background: #eee;
+    }
+
+    .timeline-step {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .timeline-step::before {
+      content: '';
+      position: absolute;
+      left: -36px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .timeline-step.active::before {
+      background: var(--whatsapp-green);
+    }
+
+    .timeline-step h4 {
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .timeline-step p {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .contact {
+      text-align: center;
+      margin-top: 30px;
+      color: #666;
+      font-size: 15px;
+    }
+
+    .contact a {
+      color: var(--whatsapp-green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: var(--mpesa-blue);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge.kenyan {
+      background: linear-gradient(135deg, var(--kenyan-red), var(--kenyan-green));
+    }
+
+    .error {
+      color: var(--kenyan-red);
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 500;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .input-group {
+        flex-direction: column;
+      }
+      .input-group button {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Bargainsshoppe<span>.</span>co<span>.</span>ke</div>
+      <p class="subtitle">Kenya’s Most Trusted Online Store</p>
+    </header>
+
+    <div class="search-box">
+      <h2><i class="fas fa-search"></i> Track Your Order</h2>
+      <div class="input-group">
+        <input type="text" id="trackingId" placeholder="Enter your tracking number (e.g. BSH-123456)" maxlength="12" />
+        <button id="trackBtn">Track</button>
+      </div>
+      <div class="error" id="error">Please enter a valid tracking number (e.g. BSH-123456)</div>
+    </div>
+
+    <div class="status-card" id="statusCard">
+      <div class="status-header">
+        <div class="status-icon">
+          <i class="fas fa-truck"></i>
+        </div>
+        <div class="status-info">
+          <h3 id="orderStatus">Out for Delivery</h3>
+          <p>Estimated delivery: <span id="deliveryTime">Today, 3:00 PM</span></p>
+        </div>
+      </div>
+
+      <div class="timeline" id="timeline">
+        <!-- Timeline will be populated by JS -->
+      </div>
+
+      <div class="trust-badges">
+        <div class="badge"><i class="fas fa-lock"></i> M-Pesa Verified</div>
+        <div class="badge"><i class="fab fa-whatsapp"></i> WhatsApp Support</div>
+        <div class="badge kenyan"><i class="fas fa-flag-kenya"></i> Kenyan-Owned</div>
+      </div>
+    </div>
+
+    <div class="contact">
+      Need help? <a href="https://wa.me/254774755356?text=Hi%20I%20need%20help%20with%20my%20order" target="_blank">
+        Chat with us on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Mock order data
+    const mockOrders = {
+      'BSH-123456': {
+        status: 'Out for Delivery',
+        deliveryTime: 'Today, 3:00 PM',
+        timeline: [
+          { step: 'Order Confirmed', time: 'Oct 15, 2025 - 10:30 AM', active: true },
+          { step: 'Payment Verified via M-Pesa', time: 'Oct 15, 2025 - 10:32 AM', active: true },
+          { step: 'Picked & Packaged', time: 'Oct 15, 2025 - 11:15 AM', active: true },
+          { step: 'Out for Delivery', time: 'Today, 1:45 PM', active: true },
+          { step: 'Delivered', time: '', active: false }
+        ]
+      },
+      'BSH-789012': {
+        status: 'Payment Verified',
+        deliveryTime: 'Tomorrow, 11:00 AM',
+        timeline: [
+          { step: 'Order Confirmed', time: 'Nov 18, 2025 - 2:00 PM', active: true },
+          { step: 'Payment Verified via M-Pesa', time: 'Nov 18, 2025 - 2:05 PM', active: true },
+          { step: 'Picked & Packaged', time: '', active: false },
+          { step: 'Out for Delivery', time: '', active: false },
+          { step: 'Delivered', time: '', active: false }
+        ]
+      },
+      'BSH-345678': {
+        status: 'Delivered',
+        deliveryTime: 'Nov 15, 2025 - 4:30 PM',
+        timeline: [
+          { step: 'Order Confirmed', time: 'Nov 15, 2025 - 9:00 AM', active: true },
+          { step: 'Payment Verified via M-Pesa', time: 'Nov 15, 2025 - 9:02 AM', active: true },
+          { step: 'Picked & Packaged', time: 'Nov 15, 2025 - 10:00 AM', active: true },
+          { step: 'Out for Delivery', time: 'Nov 15, 2025 - 12:15 PM', active: true },
+          { step: 'Delivered', time: 'Nov 15, 2025 - 4:30 PM', active: true }
+        ]
+      }
+    };
+
+    document.getElementById('trackBtn').addEventListener('click', trackOrder);
+    document.getElementById('trackingId').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') trackOrder();
+    });
+
+    function trackOrder() {
+      const input = document.getElementById('trackingId').value.trim().toUpperCase();
+      const error = document.getElementById('error');
+      const card = document.getElementById('statusCard');
+
+      error.style.display = 'none';
+
+      // Validate format: BSH-XXXXXX
+      if (!/^[A-Z]{3}-\d{6}$/.test(input)) {
+        error.style.display = 'block';
+        card.style.display = 'none';
+        return;
+      }
+
+      if (mockOrders[input]) {
+        const order = mockOrders[input];
+        document.getElementById('orderStatus').textContent = order.status;
+        document.getElementById('deliveryTime').textContent = order.deliveryTime;
+
+        // Build timeline
+        const timeline = document.getElementById('timeline');
+        timeline.innerHTML = '';
+
+        order.timeline.forEach(step => {
+          const div = document.createElement('div');
+          div.className = `timeline-step ${step.active ? 'active' : ''}`;
+          div.innerHTML = `
+            <h4>${step.step}</h4>
+            <p>${step.time || 'Pending'}</p>
+          `;
+          timeline.appendChild(div);
+        });
+
+        card.style.display = 'block';
+      } else {
+        error.textContent = 'Order not found. Check your tracking number and try again.';
+        error.style.display = 'block';
+        card.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
+
