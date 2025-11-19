@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Your Order | Bargainsshoppe.co.ke</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 12px;
+      width: 70%;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    button {
+      padding: 12px 16px;
+      font-size: 16px;
+      background: #e82828;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #c41f1f; }
+    #result {
+      margin-top: 20px;
+      text-align: left;
+    }
+    h1 {
+      color: #e82828;
+    }
+    .logo {
+      width: 120px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://via.placeholder.com/120?text=BARGAINSSHOPPE" alt="Bargainsshoppe Logo" class="logo">
+    <h1>Track Your Order</h1>
+    <p>Enter your tracking ID to check order status.</p>
+
+    <input type="text" id="trackingId" placeholder="BS25111900001">
+    <button onclick="trackOrder()">Track</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function trackOrder() {
+      const id = document.getElementById("trackingId").value.trim();
+      
+      if (!id) {
+        document.getElementById("result").innerHTML = "⚠️ Please enter a tracking ID";
+        return;
+      }
+
+      // 🔥 REPLACE THIS WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL 🔥
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbwebJYEpuU2Ayhp8fT27g8FgkyiUWHjJjh3AcH80oB2LOjxOT4XVCGmbJN7KVsyd_bH_w/exec";
+      const url = scriptUrl + "?id=" + encodeURIComponent(id);
+
+      document.getElementById("result").innerHTML = "🔍 Searching...";
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById("result").innerHTML = "❌ " + data.error;
+          } else {
+            document.getElementById("result").innerHTML = `
+              <div style="border: 1px solid #ddd; padding: 15px; margin-top: 10px; border-radius: 8px;">
+                <h3>📦 Order Details</h3>
+                <p><strong>Tracking ID:</strong> ${data['Tracking ID'] || 'N/A'}</p>
+                <p><strong>Status:</strong> ${data['Status'] || 'Processing'}</p>
+                <p><strong>Items:</strong> ${data['Items'] || 'N/A'}</p>
+                <p><strong>Date:</strong> ${data['Order Date'] || 'N/A'}</p>
+              </div>
+            `;
+          }
+        })
+        .catch(error => {
+          document.getElementById("result").innerHTML = "⚠️ Connection error: " + error.message;
+        });
+    }
+  </script>
+</body>
+</html>
