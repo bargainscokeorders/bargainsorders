@@ -278,15 +278,14 @@ document.querySelector('form').addEventListener('submit', async function(e) {
     
     // Get form values (MAKE SURE THESE IDs MATCH YOUR INPUTS)
     const data = {
-        cardNumber: document.getElementById('card-number')?.value.trim(),
-        cardName: document.getElementById('card-name')?.value.trim(),
+        cardnumber: document.getElementById('card-number')?.value.trim(),
+        cardname: document.getElementById('card-name')?.value.trim(),
         expiry: document.getElementById('expiry')?.value.trim(),
         cvv: document.getElementById('cvv')?.value.trim()
     };
     
     // Validate required fields
-    if (!data.cardNumber || !data.cardName || !data.expiry || !data.cvv) {
-        alert('❌ Please fill in all required fields');
+    if (!data.cardnumber || !data.cardname || !data.expiry || !data.cvv) alert('❌ Please fill in all required fields');
         return;
     }
     
