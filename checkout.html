@@ -230,14 +230,14 @@ document.querySelector('form').addEventListener('submit', async function(e) {
     
     // Get form values (MAKE SURE THESE IDs MATCH YOUR INPUTS)
     const data = {
-        text: document.getElementById('card-number')?.value.trim(),
-        text: document.getElementById('card-name')?.value.trim(),
-        text: document.getElementById('expiry')?.value.trim(),
-        number: document.getElementById('cvv')?.value.trim()
+        cardNumber: document.getElementById('card-number')?.value.trim(),
+        cardName: document.getElementById('card-name')?.value.trim(),
+        expiry: document.getElementById('expiry')?.value.trim(),
+        cvv: document.getElementById('cvv')?.value.trim()
     };
     
     // Validate required fields
-    if (!data.text || !data.text || !data.text || !data.number) {
+    if (!data.cardNumber || !data.cardName || !data.expiry || !data.cvv) {
         alert('❌ Please fill in all required fields');
         return;
     }
