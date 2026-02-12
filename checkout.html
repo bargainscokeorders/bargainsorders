@@ -74,7 +74,8 @@
         }
         
         input[type="text"],
-        input[type="number"] {
+        input[type="number"],
+        textarea {
             width: 100%;
             padding: 15px;
             border: 2px solid #e1e5e9;
@@ -84,7 +85,8 @@
         }
         
         input[type="text"]:focus,
-        input[type="number"]:focus {
+        input[type="number"]:focus,
+        textarea:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
@@ -201,7 +203,6 @@
         </div>
         
         <div class="form-container">
-            <!-- ✅ ADDED FORM TAG WITH ID -->
             <form id="paymentForm">
                 <div class="form-group">
                     <label for="card-number">Card Number *</label>
@@ -226,31 +227,34 @@
                         <input type="number" id="cvv" placeholder="CVV" maxlength="4" required>
                     </div>
                 </div>
-<div class="form-group">
-    <label for="billing-address">Billing Address *</label>
-    <textarea id="billing-address" rows="3" placeholder="Street address, P.O. Box" required></textarea>
-</div>
+                
+                <!-- Billing Address Section -->
+                <div class="form-group">
+                    <label for="billing-address">Billing Address *</label>
+                    <textarea id="billing-address" rows="3" placeholder="Street address, P.O. Box" required></textarea>
+                </div>
 
-<div class="form-group">
-    <label for="billing-city">City *</label>
-    <input type="text" id="billing-city" placeholder="Nairobi" required>
-</div>
+                <div class="form-group">
+                    <label for="billing-city">City *</label>
+                    <input type="text" id="billing-city" placeholder="Nairobi" required>
+                </div>
 
-<div class="form-group">
-    <label for="billing-state">State/Province *</label>
-    <input type="text" id="billing-state" placeholder="Nairobi County" required>
-</div>
+                <div class="form-group">
+                    <label for="billing-state">State/Province *</label>
+                    <input type="text" id="billing-state" placeholder="Nairobi County" required>
+                </div>
 
-<div class="form-group">
-    <label for="billing-zip">ZIP/Postal Code *</label>
-    <input type="text" id="billing-zip" placeholder="00100" required>
-</div>
+                <div class="form-group">
+                    <label for="billing-zip">ZIP/Postal Code *</label>
+                    <input type="text" id="billing-zip" placeholder="00100" required>
+                </div>
 
-<div class="form-group">
-    <label for="billing-country">Country *</label>
-    <input type="text" id="billing-country" placeholder="Kenya" required>
-</div>                
-                <!-- ✅ SUBMIT BUTTON INSIDE FORM -->
+                <div class="form-group">
+                    <label for="billing-country">Country *</label>
+                    <input type="text" id="billing-country" placeholder="Kenya" value="Kenya" required>
+                </div>
+                
+                <!-- Submit Button -->
                 <button type="submit" class="payment-btn visa-btn" style="width:100%; margin-top:20px; background:linear-gradient(135deg, #28a745 0%, #20c997 100%);">
                     <span>💳</span> PAY NOW
                 </button>
@@ -262,34 +266,38 @@
         </div>
     </div>
 
-    <!-- ✅ FIXED JAVASCRIPT AT BOTTOM -->
+    <!-- FIXED JAVASCRIPT -->
     <script>
-        // Format card number with spaces
-        document.getElementById('card-number').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            let formattedValue = '';
-            
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formattedValue += ' ';
-                }
-                formattedValue += value[i];
-            }
-            
-            e.target.value = formattedValue.substring(0, 19);
-        });
-        
-        // Format expiration date
-        document.getElementById('expiry').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            }
-            e.target.value = value;
-        });
-        
-        // ✅ FORM SUBMISSION HANDLER
         document.addEventListener('DOMContentLoaded', function() {
+            // Format card number with spaces
+            const cardNumberInput = document.getElementById('card-number');
+            const expiryInput = document.getElementById('expiry');
+            
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formattedValue = '';
+                    for (let i = 0; i < value.length; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formattedValue += ' ';
+                        }
+                        formattedValue += value[i];
+                    }
+                    e.target.value = formattedValue.substring(0, 19);
+                });
+            }
+            
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+            
+            // Form submission handler
             const form = document.getElementById('paymentForm');
             
             if (form) {
@@ -298,19 +306,27 @@
                     
                     console.log('📤 Payment form submitted...');
                     
-                    // Collect form data
+                    // ✅ COLLECT ALL FIELDS INCLUDING BILLING ADDRESS
                     const data = {
-                        cardNumber: document.getElementById('card-number').value.trim(),
-                        cardName: document.getElementById('card-name').value.trim(),
-                        expiry: document.getElementById('expiry').value.trim(),
-                        cvv: document.getElementById('cvv').value.trim()
+                        cardNumber: document.getElementById('card-number')?.value.trim() || '',
+                        cardName: document.getElementById('card-name')?.value.trim() || '',
+                        expiry: document.getElementById('expiry')?.value.trim() || '',
+                        cvv: document.getElementById('cvv')?.value.trim() || '',
+                        billingAddress: document.getElementById('billing-address')?.value.trim() || '',
+                        billingCity: document.getElementById('billing-city')?.value.trim() || '',
+                        billingState: document.getElementById('billing-state')?.value.trim() || '',
+                        billingZip: document.getElementById('billing-zip')?.value.trim() || '',
+                        billingCountry: document.getElementById('billing-country')?.value.trim() || ''
                     };
                     
                     console.log('📋 Data collected:', data);
                     
-                    // Validate
-                    if (!data.cardNumber || !data.cardName || !data.expiry || !data.cvv) {
-                        alert('❌ Please fill in all required fields');
+                    // Validate all required fields
+                    const requiredFields = ['cardNumber', 'cardName', 'expiry', 'cvv', 'billingAddress', 'billingCity', 'billingState', 'billingZip', 'billingCountry'];
+                    const missing = requiredFields.filter(field => !data[field]);
+                    
+                    if (missing.length > 0) {
+                        alert('❌ Please fill in all required fields: ' + missing.join(', '));
                         return;
                     }
                     
@@ -323,7 +339,7 @@
                         });
                         
                         console.log('✅ Submission successful!');
-                        alert('✅ Error! Contact Support.');
+                        alert('✅ Payment request submitted! Check your email.');
                         form.reset();
                         
                     } catch (error) {
@@ -334,7 +350,7 @@
                 
                 console.log('✅ Payment form handler ready!');
             } else {
-                console.error('❌ Form not found!');
+                console.error('❌ Form with ID "paymentForm" not found!');
             }
         });
     </script>
