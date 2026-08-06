@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Track Your Order | Bargainsshoppe.Express</title>
+  <title>Bargainsshoppe.co.ke | Kenya’s Most Trusted Online Store</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     * {
@@ -36,7 +36,7 @@
 
     header {
       text-align: center;
-      padding: 30px 0;
+      padding: 30px 0 10px 0;
       background: white;
       border-radius: 16px;
       margin-bottom: 25px;
@@ -57,6 +57,93 @@
     .subtitle {
       color: #666;
       font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    /* --- NEW: Navigation Menu --- */
+    .nav-menu {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 20px 20px 20px;
+      border-bottom: 1px solid #eee;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: var(--dark-gray);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--light-gray);
+      color: var(--mpesa-blue);
+    }
+
+    .nav-btn.active {
+      background-color: var(--mpesa-blue);
+      color: white;
+    }
+
+    /* --- NEW: Quick Action Buttons Grid --- */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .action-card {
+      background: white;
+      padding: 25px 15px;
+      border-radius: 16px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--dark-gray);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .action-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--mpesa-blue);
+      box-shadow: 0 8px 20px rgba(0,85,164,0.15);
+    }
+
+    .action-card i {
+      font-size: 32px;
+      color: var(--mpesa-blue);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .action-card span {
+      font-weight: 700;
+      font-size: 15px;
+      display: block;
+    }
+
+    .action-card.mpesa-card {
+      background: linear-gradient(135deg, var(--kenyan-green), #009e4d);
+      color: white;
+    }
+
+    .action-card.mpesa-card i {
+      color: white;
+    }
+
+    .action-card.mpesa-card:hover {
+      border-color: var(--kenyan-green);
+      box-shadow: 0 8px 20px rgba(0,122,61,0.3);
     }
 
     .search-box {
@@ -70,6 +157,7 @@
     .search-box h2 {
       margin-bottom: 15px;
       color: var(--dark-gray);
+      font-size: 20px;
     }
 
     .input-group {
@@ -248,6 +336,13 @@
       .input-group button {
         padding: 14px;
       }
+      .nav-menu {
+        gap: 5px;
+      }
+      .nav-btn {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
     }
   </style>
 </head>
@@ -256,12 +351,37 @@
     <header>
       <div class="logo">Bargainsshoppe<span>.</span>co<span>.</span>ke</div>
       <p class="subtitle">Kenya’s Most Trusted Online Store</p>
+      
+      <!-- Top Navigation Menu -->
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Home</a>
+        <a href="track.html" class="nav-btn"><i class="fas fa-truck"></i> Track Order</a>
+        <a href="checkout.html" class="nav-btn"><i class="fas fa-shopping-cart"></i> Checkout</a>
+        <a href="stkpush.html" class="nav-btn" style="color: var(--kenyan-green);"><i class="fas fa-mobile-alt"></i> M-Pesa Pay</a>
+      </nav>
     </header>
 
+    <!-- NEW: Quick Action Buttons -->
+    <div class="quick-actions">
+      <a href="track.html" class="action-card">
+        <i class="fas fa-truck-fast"></i>
+        <span>Track Order</span>
+      </a>
+      <a href="checkout.html" class="action-card">
+        <i class="fas fa-shopping-bag"></i>
+        <span>Checkout</span>
+      </a>
+      <a href="stkpush.html" class="action-card mpesa-card">
+        <i class="fas fa-mobile-screen-button"></i>
+        <span>M-Pesa STK Push</span>
+      </a>
+    </div>
+
+    <!-- Existing Tracking Feature (Kept intact for homepage convenience) -->
     <div class="search-box">
-      <h2><i class="fas fa-search"></i> Track Your Order</h2>
+      <h2><i class="fas fa-search"></i> Quick Track Your Order</h2>
       <div class="input-group">
-        <input type="text" id="trackingId" placeholder="Enter your tracking number (e.g. BSH-123456)" maxlength="12" />
+        <input type="text" id="trackingId" placeholder="Enter tracking number (e.g. BSH-123456)" maxlength="12" />
         <button id="trackBtn">Track</button>
       </div>
       <div class="error" id="error">Please enter a valid tracking number (e.g. BSH-123456)</div>
@@ -285,13 +405,13 @@
       <div class="trust-badges">
         <div class="badge"><i class="fas fa-lock"></i> M-Pesa Verified</div>
         <div class="badge"><i class="fab fa-whatsapp"></i> WhatsApp Support</div>
-        <div class="badge kenyan"><i class="fas fa-flag-kenya"></i> Kenyan-Owned</div>
+        <div class="badge kenyan"><i class="fas fa-flag"></i> Kenyan-Owned</div>
       </div>
     </div>
 
     <div class="contact">
       Need help? <a href="https://wa.me/254774755356?text=Hi%20I%20need%20help%20with%20my%20order" target="_blank">
-        Chat with us on WhatsApp
+        <i class="fab fa-whatsapp"></i> Chat with us on WhatsApp
       </a>
     </div>
   </div>
